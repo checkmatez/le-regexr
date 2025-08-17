@@ -85,7 +85,9 @@ export interface SpecialMacrosSectionProps {
 export interface OutputSectionProps {
   searchString: string;
   copied: boolean;
+  shared: boolean;
   onCopy: () => void;
+  onShare: () => void;
   onClear: () => void;
 }
 

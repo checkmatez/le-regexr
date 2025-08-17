@@ -1,6 +1,12 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { AFFIX_COUNT_MACROS, SEARCH_PRESETS } from '../data/stash-macros';
 import type { AffixTier, MacroWithValue, Operator, SearchState } from '../types/stash-search';
+import {
+  clearURLState,
+  generateShareableLink,
+  getStateFromURL,
+  updateURL,
+} from '../utils/url-state';
 import {
   AffixCountsSection,
   AffixTiersSection,
@@ -50,9 +56,13 @@ const createInitialState = (): SearchState => ({
 });
 
 export default function StashSearchBuilder() {
-  const [state, setState] = useState<SearchState>(createInitialState);
-  const [searchString, setSearchString] = useState('');
+  const [state, setState] = useState<SearchState>(() => {
+    // Initialize state from URL on first load
+    return getStateFromURL(createInitialState());
+  });
   const [copied, setCopied] = useState(false);
+  const [shared, setShared] = useState(false);
+  const updateTimeoutRef = useRef<number>();
 
   // Generate search string from current state
   const generateSearchString = useCallback((currentState: SearchState): string => {
@@ -134,11 +144,28 @@ export default function StashSearchBuilder() {
     return parts.join('&');
   }, []);
 
-  // Update search string when state changes
+  // Calculate search string directly from state (no need for useState + useEffect)
+  const searchString = generateSearchString(state);
+
+  // Debounced URL update when search string changes
   useEffect(() => {
-    const newSearchString = generateSearchString(state);
-    setSearchString(newSearchString);
-  }, [state, generateSearchString]);
+    // Clear existing timeout
+    if (updateTimeoutRef.current) {
+      clearTimeout(updateTimeoutRef.current);
+    }
+
+    // Set new timeout for URL update (debounce)
+    updateTimeoutRef.current = window.setTimeout(() => {
+      updateURL(searchString);
+    }, 500);
+
+    // Cleanup timeout on unmount
+    return () => {
+      if (updateTimeoutRef.current) {
+        clearTimeout(updateTimeoutRef.current);
+      }
+    };
+  }, [searchString]);
 
   // Handle preset selection
   const handlePresetChange = (presetName: string) => {
@@ -242,9 +269,22 @@ export default function StashSearchBuilder() {
     }
   };
 
+  // Share current search string as link
+  const shareState = async () => {
+    try {
+      const shareableLink = generateShareableLink(searchString);
+      await navigator.clipboard.writeText(shareableLink);
+      setShared(true);
+      setTimeout(() => setShared(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy shareable link:', err);
+    }
+  };
+
   // Clear all
   const clearAll = () => {
     setState(createInitialState());
+    clearURLState();
   };
 
   return (
@@ -259,7 +299,9 @@ export default function StashSearchBuilder() {
       <OutputSection
         searchString={searchString}
         copied={copied}
+        shared={shared}
         onCopy={copyToClipboard}
+        onShare={shareState}
         onClear={clearAll}
       />
 
