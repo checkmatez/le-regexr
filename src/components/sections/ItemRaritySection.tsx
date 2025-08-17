@@ -7,11 +7,14 @@ export function ItemRaritySection({ itemRarity, onRarityChange }: ItemRaritySect
   return (
     <SectionContainer>
       <SectionHeader>Item Rarity</SectionHeader>
-      <RadioGroup<ItemRarity>
+      <RadioGroup<NonNullable<ItemRarity>>
         name="rarity"
         value={itemRarity}
         onChange={onRarityChange}
-        options={ITEM_RARITIES.map((r) => ({ value: r.value as ItemRarity, label: r.label }))}
+        options={ITEM_RARITIES.map((r) => ({
+          value: r.value as NonNullable<ItemRarity>,
+          label: r.label,
+        }))}
         allowNone={true}
         noneLabel="Any Rarity"
       />

@@ -62,7 +62,7 @@ export default function StashSearchBuilder() {
   });
   const [copied, setCopied] = useState(false);
   const [shared, setShared] = useState(false);
-  const updateTimeoutRef = useRef<number>();
+  const updateTimeoutRef = useRef<number | undefined>(undefined);
 
   // Generate search string from current state
   const generateSearchString = useCallback((currentState: SearchState): string => {
@@ -189,9 +189,9 @@ export default function StashSearchBuilder() {
     setState((prevState) => ({
       ...prevState,
       [category]: {
-        ...prevState[category],
+        ...(prevState[category] as Record<string, any>),
         [key]: {
-          ...prevState[category][key],
+          ...(prevState[category] as Record<string, any>)[key],
           [field]: value,
         },
       },
@@ -203,7 +203,7 @@ export default function StashSearchBuilder() {
     setState((prevState) => ({
       ...prevState,
       [category]: {
-        ...prevState[category],
+        ...(prevState[category] as Record<string, any>),
         [key]: { enabled },
       },
     }));
@@ -212,7 +212,7 @@ export default function StashSearchBuilder() {
   // Handle set changes (class requirements, item types)
   const toggleSetItem = <T,>(category: 'classRequirements' | 'itemTypes', item: T) => {
     setState((prevState) => {
-      const newSet = new Set(prevState[category]);
+      const newSet = new Set(prevState[category]) as Set<T>;
       if (newSet.has(item)) {
         newSet.delete(item);
       } else {
@@ -220,7 +220,7 @@ export default function StashSearchBuilder() {
       }
       return {
         ...prevState,
-        [category]: newSet,
+        [category]: newSet as any,
       };
     });
   };

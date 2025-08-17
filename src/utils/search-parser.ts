@@ -4,6 +4,7 @@ import type {
   ItemType,
   Operator,
   SearchState,
+  SimpleMacro,
 } from '../types/stash-search';
 
 /**
@@ -41,7 +42,7 @@ export function parseSearchString(searchString: string, fallbackState: SearchSta
       if (/^(WT|FP)$/i.test(part)) {
         const key = part.toUpperCase() as keyof typeof state.itemPotential;
         if (key in state.itemPotential) {
-          state.itemPotential[key] = { enabled: true };
+          (state.itemPotential[key] as SimpleMacro) = { enabled: true };
         }
         continue;
       }
@@ -96,7 +97,7 @@ export function parseSearchString(searchString: string, fallbackState: SearchSta
       if (/^(CoF|MG|Trade)$/i.test(part)) {
         const key = part as keyof typeof state.equipmentRequirements;
         if (key in state.equipmentRequirements) {
-          state.equipmentRequirements[key] = { enabled: true };
+          (state.equipmentRequirements[key] as SimpleMacro) = { enabled: true };
         }
         continue;
       }
