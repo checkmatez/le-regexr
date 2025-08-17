@@ -11,7 +11,7 @@ export function OutputSection({
   onToggleOperator,
 }: OutputSectionProps) {
   return (
-    <div className="sticky top-0 z-10 bg-gray-800 rounded-lg p-3 md:p-4 mb-6 md:mb-8 shadow-lg border border-gray-700">
+    <div>
       <h3 className="text-base md:text-lg font-semibold text-amber-400 mb-3">
         Generated Search String
       </h3>
@@ -47,7 +47,7 @@ export function OutputSection({
             type="text"
             value={searchString}
             readOnly
-            className="flex-1 bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-100 font-mono text-xs"
+            className="flex-1 bg-gray-800 border border-gray-600 rounded px-3 py-2 text-gray-100 font-mono text-xs focus:outline-none"
             placeholder="Your search string will appear here..."
           />
         </div>
@@ -109,7 +109,7 @@ export function OutputSection({
           type="text"
           value={searchString}
           readOnly
-          className="flex-1 bg-gray-700 border border-gray-600 rounded px-3 py-2 text-gray-100 font-mono text-sm"
+          className="flex-1 bg-gray-800 border border-gray-600 rounded px-3 py-2 text-gray-100 font-mono text-sm focus:outline-none"
           placeholder="Your search string will appear here..."
         />
         <button

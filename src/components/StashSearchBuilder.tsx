@@ -348,77 +348,84 @@ export const StashSearchBuilder = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-4 md:p-6 bg-gray-900 text-gray-100">
-      <div className="mb-6 md:mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-amber-400 mb-2">
-          Last Epoch Stash Search Builder
-        </h1>
-        <p className="text-gray-300 text-sm md:text-base">
-          Build complex stash search strings using an intuitive interface
-        </p>
+    <>
+      <div className="max-w-7xl mx-auto p-4 md:p-6 bg-gray-900 text-gray-100 pb-32 md:pb-24">
+        <div className="mb-6 md:mb-8">
+          <h1 className="text-2xl md:text-3xl font-bold text-amber-400 mb-2">
+            Last Epoch Stash Search Builder
+          </h1>
+          <p className="text-gray-300 text-sm md:text-base">
+            Build complex stash search strings using an intuitive interface
+          </p>
+        </div>
+
+        <PresetSection selectedPreset={state.selectedPreset} onPresetChange={handlePresetChange} />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 mb-8">
+          {/* Column 1: Item Properties */}
+          <div className="space-y-4 md:space-y-6">
+            <ItemPotentialSection
+              itemPotential={state.itemPotential}
+              updateMacroWithValue={updateMacroWithValue}
+            />
+            <ItemRaritySection
+              itemRarity={state.itemRarity}
+              onRarityChange={(rarity) => setState((prev) => ({ ...prev, itemRarity: rarity }))}
+            />
+          </div>
+
+          {/* Column 2: Requirements & Types */}
+          <div className="space-y-4 md:space-y-6">
+            <ClassRequirementsSection
+              classRequirements={state.classRequirements}
+              toggleSetItem={toggleSetItem}
+            />
+            <ItemTypesSection itemTypes={state.itemTypes} toggleSetItem={toggleSetItem} />
+            <EquipmentRequirementsSection
+              equipmentRequirements={state.equipmentRequirements}
+              updateMacroWithValue={updateMacroWithValue}
+            />
+          </div>
+
+          {/* Column 3: Affixes */}
+          <div className="space-y-4 md:space-y-6">
+            <AffixTiersSection
+              affixTiers={state.affixTiers}
+              addAffixTier={addAffixTier}
+              updateAffixTier={updateAffixTier}
+              removeAffixTier={removeAffixTier}
+            />
+            <AffixCountsSection
+              affixCounts={state.affixCounts}
+              updateMacroWithValue={updateMacroWithValue}
+            />
+          </div>
+        </div>
+
+        <CustomSearchSection
+          regexPatterns={state.regexPatterns}
+          addRegexPattern={addRegexPattern}
+          updateRegexPattern={updateRegexPattern}
+          removeRegexPattern={removeRegexPattern}
+          toggleCommonPattern={toggleCommonPattern}
+        />
       </div>
 
-      <OutputSection
-        searchString={searchString}
-        globalOperator={state.globalOperator}
-        copied={copied}
-        shared={shared}
-        onCopy={copyToClipboard}
-        onShare={shareState}
-        onClear={clearAll}
-        onToggleOperator={toggleGlobalOperator}
-      />
-
-      <PresetSection selectedPreset={state.selectedPreset} onPresetChange={handlePresetChange} />
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 mb-8">
-        {/* Column 1: Item Properties */}
-        <div className="space-y-4 md:space-y-6">
-          <ItemPotentialSection
-            itemPotential={state.itemPotential}
-            updateMacroWithValue={updateMacroWithValue}
-          />
-          <ItemRaritySection
-            itemRarity={state.itemRarity}
-            onRarityChange={(rarity) => setState((prev) => ({ ...prev, itemRarity: rarity }))}
-          />
-        </div>
-
-        {/* Column 2: Requirements & Types */}
-        <div className="space-y-4 md:space-y-6">
-          <ClassRequirementsSection
-            classRequirements={state.classRequirements}
-            toggleSetItem={toggleSetItem}
-          />
-          <ItemTypesSection itemTypes={state.itemTypes} toggleSetItem={toggleSetItem} />
-          <EquipmentRequirementsSection
-            equipmentRequirements={state.equipmentRequirements}
-            updateMacroWithValue={updateMacroWithValue}
-          />
-        </div>
-
-        {/* Column 3: Affixes */}
-        <div className="space-y-4 md:space-y-6">
-          <AffixTiersSection
-            affixTiers={state.affixTiers}
-            addAffixTier={addAffixTier}
-            updateAffixTier={updateAffixTier}
-            removeAffixTier={removeAffixTier}
-          />
-          <AffixCountsSection
-            affixCounts={state.affixCounts}
-            updateMacroWithValue={updateMacroWithValue}
+      {/* Bottom sticky output section */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 bg-gray-900 border-t border-gray-700 shadow-2xl">
+        <div className="max-w-7xl mx-auto p-4 md:p-6">
+          <OutputSection
+            searchString={searchString}
+            globalOperator={state.globalOperator}
+            copied={copied}
+            shared={shared}
+            onCopy={copyToClipboard}
+            onShare={shareState}
+            onClear={clearAll}
+            onToggleOperator={toggleGlobalOperator}
           />
         </div>
       </div>
-
-      <CustomSearchSection
-        regexPatterns={state.regexPatterns}
-        addRegexPattern={addRegexPattern}
-        updateRegexPattern={updateRegexPattern}
-        removeRegexPattern={removeRegexPattern}
-        toggleCommonPattern={toggleCommonPattern}
-      />
-    </div>
+    </>
   );
 };
