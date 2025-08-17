@@ -256,6 +256,13 @@ export default function StashSearchBuilder() {
         </p>
       </div>
 
+      <OutputSection
+        searchString={searchString}
+        copied={copied}
+        onCopy={copyToClipboard}
+        onClear={clearAll}
+      />
+
       <PresetSection selectedPreset={state.selectedPreset} onPresetChange={handlePresetChange} />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
@@ -314,13 +321,6 @@ export default function StashSearchBuilder() {
             swapAttributes: { enabled },
           }))
         }
-      />
-
-      <OutputSection
-        searchString={searchString}
-        copied={copied}
-        onCopy={copyToClipboard}
-        onClear={clearAll}
       />
     </div>
   );
