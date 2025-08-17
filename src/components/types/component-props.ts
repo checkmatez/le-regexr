@@ -1,5 +1,6 @@
 import type {
   AffixTier,
+  ExpressionOperator,
   ItemRarity,
   MacroWithValue,
   Operator,
@@ -76,11 +77,13 @@ export interface CustomSearchSectionProps {
 
 export interface OutputSectionProps {
   searchString: string;
+  globalOperator: ExpressionOperator;
   copied: boolean;
   shared: boolean;
   onCopy: () => void;
   onShare: () => void;
   onClear: () => void;
+  onToggleOperator: () => void;
 }
 
 export interface PresetSectionProps {

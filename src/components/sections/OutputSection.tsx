@@ -2,16 +2,38 @@ import type { OutputSectionProps } from '../types/component-props';
 
 export function OutputSection({
   searchString,
+  globalOperator,
   copied,
   shared,
   onCopy,
   onShare,
   onClear,
+  onToggleOperator,
 }: OutputSectionProps) {
   return (
     <div className="sticky top-0 z-10 bg-gray-800 rounded-lg p-4 mb-8 shadow-lg border border-gray-700">
       <h3 className="text-lg font-semibold text-amber-400 mb-3">Generated Search String</h3>
       <div className="flex gap-2 items-center">
+        <div className="bg-gray-700 rounded border border-gray-600 p-1 flex" title="Join with">
+          <button
+            onClick={onToggleOperator}
+            className={`px-3 py-1 text-sm font-medium rounded transition-colors ${
+              globalOperator === '&' ? 'bg-amber-600 text-white' : 'text-gray-300 hover:text-white'
+            }`}
+            title="AND - All conditions must match"
+          >
+            AND
+          </button>
+          <button
+            onClick={onToggleOperator}
+            className={`px-3 py-1 text-sm font-medium rounded transition-colors ${
+              globalOperator === '|' ? 'bg-amber-600 text-white' : 'text-gray-300 hover:text-white'
+            }`}
+            title="OR - Any condition can match"
+          >
+            OR
+          </button>
+        </div>
         <input
           type="text"
           value={searchString}

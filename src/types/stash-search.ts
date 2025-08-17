@@ -93,6 +93,7 @@ export interface SearchState {
   regexPatterns: RegexPattern[];
 
   // Expression building
+  globalOperator: ExpressionOperator;
   expressionOperators: ExpressionOperator[];
 }
 

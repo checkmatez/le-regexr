@@ -55,6 +55,7 @@ const createInitialState = (): SearchState => ({
     Personal: { enabled: false, value: 0, operator: '=' },
   },
   regexPatterns: [{ pattern: '' }],
+  globalOperator: '&',
   expressionOperators: [],
 });
 
@@ -124,8 +125,8 @@ const generateSearchString = (currentState: SearchState): string => {
     }
   });
 
-  // Join with & by default (can be enhanced for custom operators)
-  return parts.join('&');
+  // Join with the selected global operator
+  return parts.join(currentState.globalOperator);
 };
 
 export const StashSearchBuilder = () => {
@@ -332,6 +333,14 @@ export const StashSearchBuilder = () => {
     }
   };
 
+  // Toggle global operator
+  const toggleGlobalOperator = () => {
+    setState((prevState) => ({
+      ...prevState,
+      globalOperator: prevState.globalOperator === '&' ? '|' : '&',
+    }));
+  };
+
   // Clear all
   const clearAll = () => {
     setState(createInitialState());
@@ -349,11 +358,13 @@ export const StashSearchBuilder = () => {
 
       <OutputSection
         searchString={searchString}
+        globalOperator={state.globalOperator}
         copied={copied}
         shared={shared}
         onCopy={copyToClipboard}
         onShare={shareState}
         onClear={clearAll}
+        onToggleOperator={toggleGlobalOperator}
       />
 
       <PresetSection selectedPreset={state.selectedPreset} onPresetChange={handlePresetChange} />

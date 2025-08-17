@@ -196,6 +196,7 @@ export const SEARCH_PRESETS: SearchPreset[] = [
     description: 'LP3+ or WW20+ items',
     searchString: 'LP3+|WW20+',
     config: {
+      globalOperator: '|' as const,
       itemPotential: {
         LP: { enabled: true, value: 3, operator: '+' as const },
         WW: { enabled: true, value: 20, operator: '+' as const },

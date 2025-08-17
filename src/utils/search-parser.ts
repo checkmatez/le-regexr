@@ -18,9 +18,26 @@ export function parseSearchString(searchString: string, fallbackState: SearchSta
     // Clear regex patterns array to start fresh
     state.regexPatterns = [];
 
-    // Split by & (AND) first - we'll handle | (OR) later if needed
+    // Detect which operator is being used
+    const hasAnd = searchString.includes('&');
+    const hasOr = searchString.includes('|');
+
+    // Determine the primary operator based on which appears first or more frequently
+    let primaryOperator: '&' | '|' = '&'; // default
+    if (hasOr && !hasAnd) {
+      primaryOperator = '|';
+    } else if (hasOr && hasAnd) {
+      // If both are present, use the one that appears first
+      const andIndex = searchString.indexOf('&');
+      const orIndex = searchString.indexOf('|');
+      primaryOperator = orIndex < andIndex ? '|' : '&';
+    }
+
+    state.globalOperator = primaryOperator;
+
+    // Split by the detected operator
     const parts = searchString
-      .split('&')
+      .split(primaryOperator)
       .map((part) => part.trim())
       .filter(Boolean);
 
@@ -201,6 +218,7 @@ export function validateSearchString(searchString: string): boolean {
         Personal: { enabled: false, value: 0, operator: '=' },
       },
       regexPatterns: [{ pattern: '' }],
+      globalOperator: '&',
       expressionOperators: [],
     };
 
