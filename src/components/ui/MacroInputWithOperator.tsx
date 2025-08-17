@@ -28,15 +28,6 @@ export function MacroInputWithOperator({
 }: MacroInputWithOperatorProps) {
   return (
     <div className="flex space-x-2">
-      <input
-        type="number"
-        min={min}
-        max={max}
-        value={value}
-        onChange={(e) => onValueChange(parseInt(e.target.value) || min)}
-        placeholder={placeholder}
-        className="flex-1 bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm"
-      />
       <select
         value={operator}
         onChange={(e) => onOperatorChange(e.target.value as Operator)}
@@ -48,6 +39,15 @@ export function MacroInputWithOperator({
           </option>
         ))}
       </select>
+      <input
+        type="number"
+        min={min}
+        max={max}
+        value={value}
+        onChange={(e) => onValueChange(parseInt(e.target.value) || min)}
+        placeholder={placeholder}
+        className="flex-1 bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm"
+      />
     </div>
   );
 }

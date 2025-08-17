@@ -7,7 +7,6 @@ export const ITEM_POTENTIAL_MACROS = {
     name: 'Legendary Potential',
     description: "Non-Weaver's Will unique items",
     hasValue: true,
-    defaultValue: 1,
     maxValue: 4,
   },
   WW: {
@@ -15,7 +14,6 @@ export const ITEM_POTENTIAL_MACROS = {
     name: "Weaver's Will",
     description: "Weaver's Will unique or legendary items",
     hasValue: true,
-    defaultValue: 20,
     maxValue: 28,
   },
   FP: {
@@ -23,7 +21,6 @@ export const ITEM_POTENTIAL_MACROS = {
     name: 'Forging Potential',
     description: 'Available Forging Potential',
     hasValue: true,
-    defaultValue: 1,
     maxValue: 70,
   },
   WT: {
@@ -37,7 +34,6 @@ export const ITEM_POTENTIAL_MACROS = {
     name: 'Potential Tier',
     description: 'Items for unique rerolling in Gauntlet of Strife',
     hasValue: true,
-    defaultValue: 20,
     maxValue: 28,
   },
   SwapAttributes: {
@@ -149,105 +145,24 @@ export const AFFIX_COUNT_MACROS = {
 // Common search presets
 export const SEARCH_PRESETS: SearchPreset[] = [
   {
-    name: 'High-tier Exalted Items',
-    description: 'Items with at least 1 T6+ affix',
-    searchString: 'T6+',
-    config: {
-      affixTiers: [
-        {
-          tier: 6,
-          count: 1,
-          operator: '+' as const,
-        },
-      ],
-    },
-  },
-  {
-    name: 'Double T7 Exalted',
-    description: 'Items with at least 2 T7 affixes',
-    searchString: '2T7',
-    config: {
-      affixTiers: [
-        {
-          tier: 7,
-          count: 2,
-          operator: '=' as const,
-        },
-      ],
-    },
-  },
-  {
-    name: 'Legendary Potential Uniques',
-    description: 'Unique items with legendary potential',
-    searchString: 'LP1+',
-    config: {
-      itemPotential: {
-        LP: { enabled: true, value: 1, operator: '+' as const },
-        WW: { enabled: false, value: 0, operator: '+' as const },
-        PT: { enabled: false, value: 0, operator: '+' as const },
-        WT: { enabled: false },
-        FP: { enabled: false, value: 0, operator: '+' as const },
-        SwapAttributes: { enabled: false },
-      },
-    },
+    name: 'Double T6+',
+    description: 'At least 2 T6+ affixes',
+    link: '/le-regexr?q=2T6%2B',
   },
   {
     name: 'High Potential Uniques',
     description: 'LP3+ or WW20+ items',
-    searchString: 'LP3+|WW20+',
-    config: {
-      globalOperator: '|' as const,
-      itemPotential: {
-        LP: { enabled: true, value: 3, operator: '+' as const },
-        WW: { enabled: true, value: 20, operator: '+' as const },
-        PT: { enabled: false, value: 0, operator: '=' as const },
-        WT: { enabled: false },
-        FP: { enabled: false, value: 0, operator: '=' as const },
-        SwapAttributes: { enabled: false },
-      },
-    },
+    link: '/le-regexr?q=LP3%2B%7CWW20%2B',
   },
   {
     name: 'Open Prefix T7 Exalts',
     description: 'T7 exalted items with open prefix slots',
-    searchString: 'prefixes1&T7',
-    config: {
-      affixTiers: [
-        {
-          tier: 7,
-          count: 1,
-          operator: '+' as const,
-        },
-      ],
-      affixCounts: {
-        Prefixes: { enabled: true, value: 1, operator: '=' as const },
-        Suffixes: { enabled: false, value: 0, operator: '=' as const },
-        Affixes: { enabled: false, value: 0, operator: '=' as const },
-        Sealed: { enabled: false, value: 0, operator: '=' as const },
-        Experimental: { enabled: false, value: 0, operator: '=' as const },
-        Personal: { enabled: false, value: 0, operator: '=' as const },
-      },
-    },
+    link: '/le-regexr?q=T7%2B%26prefixes1-',
   },
   {
-    name: 'Trade-ready T7 Items',
-    description: 'T7 items that can be traded',
-    searchString: 'T7&Trade',
-    config: {
-      affixTiers: [
-        {
-          tier: 7,
-          count: 1,
-          operator: '+' as const,
-        },
-      ],
-      equipmentRequirements: {
-        Lvl: { enabled: false, value: 1, operator: '=' as const },
-        CoF: { enabled: false },
-        MG: { enabled: false },
-        Trade: { enabled: true },
-      },
-    },
+    name: 'Craftable boots with 25+% MS',
+    description: 'Craftable boots with 25+% movement speed',
+    link: '/le-regexr?q=FP1%2B%26%2Fboots%2F%26%2F2%5B5-9%5D%7C%5B3-9%5D%5B0-9%5D+increased+movement%2F',
   },
 ];
 
@@ -374,12 +289,12 @@ export const TIER_OPTIONS = Array.from({ length: 7 }, (_, i) => ({
 // Count options for affix tier count selectors
 export const COUNT_OPTIONS = Array.from({ length: 5 }, (_, i) => ({
   value: i + 1,
-  label: `${i + 1}T`,
+  label: `${i + 1} Affix${i > 0 ? 'es' : ''}`,
 }));
 
 // Operator options
 export const OPERATOR_OPTIONS = [
-  { value: '=' as const, label: 'Exact (=)', symbol: '' },
-  { value: '+' as const, label: 'At least (+)', symbol: '+' },
-  { value: '-' as const, label: 'At most (-)', symbol: '-' },
+  { value: '=' as const, label: 'Exact', symbol: '' },
+  { value: '+' as const, label: 'At least', symbol: '+' },
+  { value: '-' as const, label: 'At most', symbol: '-' },
 ];

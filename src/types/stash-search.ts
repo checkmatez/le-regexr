@@ -101,8 +101,7 @@ export interface SearchState {
 export interface SearchPreset {
   name: string;
   description: string;
-  searchString: string;
-  config: Partial<SearchState>;
+  link: string;
 }
 
 // Filter chip for visual expression building

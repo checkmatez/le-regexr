@@ -70,17 +70,13 @@ export function CustomSearchSection({
                 {regexPatterns.length > 1 && (
                   <button
                     onClick={() => removeRegexPattern(index)}
-                    className="px-3 py-3 md:px-2 md:py-2 bg-red-600 text-white rounded text-sm hover:bg-red-500 min-w-[44px] md:min-w-[32px] text-center"
+                    className="px-3 py-3 md:px-2 md:py-2 bg-gray-600 text-white rounded text-sm hover:bg-gray-500 min-w-[44px] md:min-w-[32px] text-center"
                   >
                     ×
                   </button>
                 )}
               </div>
             ))}
-          </div>
-          <div className="mt-2 text-xs text-gray-400">
-            Patterns are automatically enabled when not empty. Slashes (/) are added automatically
-            in the search string.
           </div>
         </div>
       </div>

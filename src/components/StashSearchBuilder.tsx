@@ -12,7 +12,6 @@ import {
   AffixTiersSection,
   ClassRequirementsSection,
   CustomSearchSection,
-  EquipmentRequirementsSection,
   ItemPotentialSection,
   ItemRaritySection,
   ItemTypesSection,
@@ -29,11 +28,11 @@ const getOperatorSymbol = (operator: Operator): string => {
 const createInitialState = (): SearchState => ({
   selectedPreset: null,
   itemPotential: {
-    LP: { enabled: false, value: 0, operator: '+' },
-    WW: { enabled: false, value: 0, operator: '+' },
-    PT: { enabled: false, value: 20, operator: '+' },
+    LP: { enabled: false, value: 1, operator: '+' },
+    WW: { enabled: false, value: 16, operator: '+' },
+    PT: { enabled: false, value: 16, operator: '+' },
     WT: { enabled: false },
-    FP: { enabled: false, value: 0, operator: '+' },
+    FP: { enabled: false, value: 1, operator: '+' },
     SwapAttributes: { enabled: false },
   },
   itemRarity: null,
@@ -361,33 +360,17 @@ export const StashSearchBuilder = () => {
 
         <PresetSection selectedPreset={state.selectedPreset} onPresetChange={handlePresetChange} />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 mb-8">
-          {/* Column 1: Item Properties */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 mb-6 md:mb-8">
+          {/* Column 1 */}
           <div className="space-y-4 md:space-y-6">
             <ItemPotentialSection
               itemPotential={state.itemPotential}
               updateMacroWithValue={updateMacroWithValue}
             />
-            <ItemRaritySection
-              itemRarity={state.itemRarity}
-              onRarityChange={(rarity) => setState((prev) => ({ ...prev, itemRarity: rarity }))}
-            />
-          </div>
-
-          {/* Column 2: Requirements & Types */}
-          <div className="space-y-4 md:space-y-6">
-            <ClassRequirementsSection
-              classRequirements={state.classRequirements}
-              toggleSetItem={toggleSetItem}
-            />
             <ItemTypesSection itemTypes={state.itemTypes} toggleSetItem={toggleSetItem} />
-            <EquipmentRequirementsSection
-              equipmentRequirements={state.equipmentRequirements}
-              updateMacroWithValue={updateMacroWithValue}
-            />
           </div>
 
-          {/* Column 3: Affixes */}
+          {/* Column 2 */}
           <div className="space-y-4 md:space-y-6">
             <AffixTiersSection
               affixTiers={state.affixTiers}
@@ -395,9 +378,21 @@ export const StashSearchBuilder = () => {
               updateAffixTier={updateAffixTier}
               removeAffixTier={removeAffixTier}
             />
+            <ItemRaritySection
+              itemRarity={state.itemRarity}
+              onRarityChange={(rarity) => setState((prev) => ({ ...prev, itemRarity: rarity }))}
+            />
+          </div>
+
+          {/* Column 3 */}
+          <div className="space-y-4 md:space-y-6">
             <AffixCountsSection
               affixCounts={state.affixCounts}
               updateMacroWithValue={updateMacroWithValue}
+            />
+            <ClassRequirementsSection
+              classRequirements={state.classRequirements}
+              toggleSetItem={toggleSetItem}
             />
           </div>
         </div>

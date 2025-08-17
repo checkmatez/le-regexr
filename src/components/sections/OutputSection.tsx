@@ -12,10 +12,6 @@ export function OutputSection({
 }: OutputSectionProps) {
   return (
     <div>
-      <h3 className="text-base md:text-lg font-semibold text-amber-400 mb-3">
-        Generated Search String
-      </h3>
-
       {/* Mobile layout: Stack vertically */}
       <div className="md:hidden space-y-3">
         <div className="flex gap-2 items-center">
@@ -53,11 +49,10 @@ export function OutputSection({
         </div>
         <div className="grid grid-cols-3 gap-2">
           <button
-            onClick={onCopy}
-            disabled={!searchString}
-            className="bg-amber-600 hover:bg-amber-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-3 py-2 rounded text-sm font-medium transition-colors"
+            onClick={onClear}
+            className="bg-gray-600 hover:bg-gray-500 text-white px-3 py-2 rounded text-sm font-medium transition-colors shadow-md"
           >
-            {copied ? 'Copied!' : 'Copy'}
+            Clear
           </button>
           <button
             onClick={onShare}
@@ -75,10 +70,11 @@ export function OutputSection({
             {shared ? 'Linked!' : 'Share'}
           </button>
           <button
-            onClick={onClear}
-            className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded text-sm font-medium transition-colors"
+            onClick={onCopy}
+            disabled={!searchString}
+            className="bg-amber-600 hover:bg-amber-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-3 py-2 rounded text-sm font-medium transition-colors shadow-md"
           >
-            Clear
+            {copied ? 'Copied!' : 'Copy'}
           </button>
         </div>
       </div>
@@ -113,11 +109,10 @@ export function OutputSection({
           placeholder="Your search string will appear here..."
         />
         <button
-          onClick={onCopy}
-          disabled={!searchString}
-          className="bg-amber-600 hover:bg-amber-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded font-medium transition-colors whitespace-nowrap"
+          onClick={onClear}
+          className="bg-gray-600 hover:bg-gray-500 text-white px-6 py-2 rounded font-medium transition-colors whitespace-nowrap shadow-md"
         >
-          {copied ? 'Copied!' : 'Copy'}
+          Clear
         </button>
         <button
           onClick={onShare}
@@ -135,10 +130,11 @@ export function OutputSection({
           {shared ? 'Link Copied!' : 'Share'}
         </button>
         <button
-          onClick={onClear}
-          className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded font-medium transition-colors whitespace-nowrap"
+          onClick={onCopy}
+          disabled={!searchString}
+          className="bg-amber-600 hover:bg-amber-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-6 py-2 rounded font-medium transition-colors whitespace-nowrap shadow-md"
         >
-          Clear
+          {copied ? 'Copied!' : 'Copy'}
         </button>
       </div>
     </div>

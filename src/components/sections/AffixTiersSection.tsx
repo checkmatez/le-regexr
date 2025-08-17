@@ -20,60 +20,63 @@ export function AffixTiersSection({
           Add Tier
         </button>
       </div>
-      <div className="space-y-4">
+      <div className="space-y-0">
         {affixTiers.map((affix, index) => (
-          <div key={index} className="border border-gray-600 rounded p-3">
-            <div className="flex justify-between items-center mb-3">
-              <h4 className="text-sm font-medium text-gray-300">Affix Tier {index + 1}</h4>
-              <button
-                onClick={() => removeAffixTier(index)}
-                className="text-red-400 hover:text-red-300 text-sm px-2 py-1 hover:bg-gray-700 rounded"
-              >
-                Remove
-              </button>
-            </div>
-            <div className="grid grid-cols-3 gap-3">
-              <div>
-                <label className="block text-sm text-gray-400 mb-1">Count</label>
-                <select
-                  value={affix.count}
-                  onChange={(e) => updateAffixTier(index, 'count', parseInt(e.target.value))}
-                  className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm text-gray-100 focus:border-amber-400 focus:outline-none"
+          <div key={index}>
+            {index > 0 && <div className="border-t border-gray-600 my-4"></div>}
+            <div>
+              <div className="flex justify-between items-center mb-3">
+                <h4 className="text-sm font-medium text-gray-300">Affix Tier {index + 1}</h4>
+                <button
+                  onClick={() => removeAffixTier(index)}
+                  className="text-red-400 hover:text-red-300 text-sm px-2 py-1 hover:bg-gray-700 rounded"
                 >
-                  {COUNT_OPTIONS.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </option>
-                  ))}
-                </select>
+                  Remove
+                </button>
               </div>
-              <div>
-                <label className="block text-sm text-gray-400 mb-1">Tier</label>
-                <select
-                  value={affix.tier}
-                  onChange={(e) => updateAffixTier(index, 'tier', parseInt(e.target.value))}
-                  className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm text-gray-100 focus:border-amber-400 focus:outline-none"
-                >
-                  {TIER_OPTIONS.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm text-gray-400 mb-1">Operator</label>
-                <select
-                  value={affix.operator}
-                  onChange={(e) => updateAffixTier(index, 'operator', e.target.value as Operator)}
-                  className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm text-gray-100 focus:border-amber-400 focus:outline-none"
-                >
-                  {OPERATOR_OPTIONS.map((op) => (
-                    <option key={op.value} value={op.value}>
-                      {op.label}
-                    </option>
-                  ))}
-                </select>
+              <div className="grid grid-cols-3 gap-3">
+                <div>
+                  <label className="block text-sm text-gray-400 mb-1">Count</label>
+                  <select
+                    value={affix.count}
+                    onChange={(e) => updateAffixTier(index, 'count', parseInt(e.target.value))}
+                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm text-gray-100 focus:border-amber-400 focus:outline-none"
+                  >
+                    {COUNT_OPTIONS.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-400 mb-1">Operator</label>
+                  <select
+                    value={affix.operator}
+                    onChange={(e) => updateAffixTier(index, 'operator', e.target.value as Operator)}
+                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm text-gray-100 focus:border-amber-400 focus:outline-none"
+                  >
+                    {OPERATOR_OPTIONS.map((op) => (
+                      <option key={op.value} value={op.value}>
+                        {op.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-400 mb-1">Tier</label>
+                  <select
+                    value={affix.tier}
+                    onChange={(e) => updateAffixTier(index, 'tier', parseInt(e.target.value))}
+                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm text-gray-100 focus:border-amber-400 focus:outline-none"
+                  >
+                    {TIER_OPTIONS.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
             </div>
           </div>
