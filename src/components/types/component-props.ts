@@ -88,5 +88,4 @@ export interface OutputSectionProps {
 
 export interface PresetSectionProps {
   selectedPreset: string | null;
-  onPresetChange: (presetName: string) => void;
 }

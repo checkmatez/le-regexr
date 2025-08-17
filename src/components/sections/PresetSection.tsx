@@ -2,7 +2,7 @@ import { SEARCH_PRESETS } from '../../data/stash-macros';
 import type { PresetSectionProps } from '../types/component-props';
 import { SectionContainer, SectionHeader } from '../ui';
 
-export function PresetSection({ selectedPreset, onPresetChange }: PresetSectionProps) {
+export function PresetSection({ selectedPreset }: PresetSectionProps) {
   return (
     <SectionContainer className="mb-6 md:mb-8">
       <SectionHeader>Quick Presets</SectionHeader>
