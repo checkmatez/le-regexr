@@ -348,10 +348,12 @@ export const StashSearchBuilder = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-6 bg-gray-900 text-gray-100">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-amber-400 mb-2">Last Epoch Stash Search Builder</h1>
-        <p className="text-gray-300">
+    <div className="max-w-7xl mx-auto p-4 md:p-6 bg-gray-900 text-gray-100">
+      <div className="mb-6 md:mb-8">
+        <h1 className="text-2xl md:text-3xl font-bold text-amber-400 mb-2">
+          Last Epoch Stash Search Builder
+        </h1>
+        <p className="text-gray-300 text-sm md:text-base">
           Build complex stash search strings using an intuitive interface
         </p>
       </div>
@@ -369,9 +371,9 @@ export const StashSearchBuilder = () => {
 
       <PresetSection selectedPreset={state.selectedPreset} onPresetChange={handlePresetChange} />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 mb-8">
         {/* Column 1: Item Properties */}
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6">
           <ItemPotentialSection
             itemPotential={state.itemPotential}
             updateMacroWithValue={updateMacroWithValue}
@@ -383,7 +385,7 @@ export const StashSearchBuilder = () => {
         </div>
 
         {/* Column 2: Requirements & Types */}
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6">
           <ClassRequirementsSection
             classRequirements={state.classRequirements}
             toggleSetItem={toggleSetItem}
@@ -396,7 +398,7 @@ export const StashSearchBuilder = () => {
         </div>
 
         {/* Column 3: Affixes */}
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6">
           <AffixTiersSection
             affixTiers={state.affixTiers}
             addAffixTier={addAffixTier}

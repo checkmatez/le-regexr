@@ -6,5 +6,5 @@ interface SectionContainerProps {
 }
 
 export function SectionContainer({ children, className = '' }: SectionContainerProps) {
-  return <div className={`bg-gray-800 rounded-lg p-6 ${className}`}>{children}</div>;
+  return <div className={`bg-gray-800 rounded-lg p-4 md:p-6 ${className}`}>{children}</div>;
 }

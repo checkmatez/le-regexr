@@ -15,7 +15,7 @@ export function AffixTiersSection({
         <SectionHeader className="mb-0">Affix Tiers</SectionHeader>
         <button
           onClick={addAffixTier}
-          className="bg-amber-600 hover:bg-amber-700 text-white px-3 py-1 rounded text-sm"
+          className="bg-amber-600 hover:bg-amber-700 text-white px-3 py-2 md:py-1 rounded text-xs md:text-sm font-medium"
         >
           Add Tier
         </button>
