@@ -1,10 +1,8 @@
-# Astro Starter Kit: Minimal
+# Last Epoch Stash Search Builder
 
-```sh
-npm create astro@latest -- --template minimal
-```
+A web application for building complex stash search strings for Last Epoch using an intuitive interface.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+🌐 **Live Demo:** [https://maksim-s.github.io/le-regexr/](https://maksim-s.github.io/le-regexr/)
 
 ## 🚀 Project Structure
 
@@ -38,6 +36,38 @@ All commands are run from the root of the project, from a terminal:
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro -- --help` | Get help using the Astro CLI                     |
 
+## 🚀 Deployment
+
+This project is automatically deployed to GitHub Pages using GitHub Actions.
+
+### Automatic Deployment
+
+- **Trigger:** Push to `master` or `main` branch
+- **Workflow:** `.github/workflows/deploy.yml`
+- **Target:** GitHub Pages at `https://maksim-s.github.io/le-regexr/`
+
+### Manual Deployment Setup
+
+To set up GitHub Pages deployment for your own fork:
+
+1. Go to your repository's Settings → Pages
+2. Set Source to "GitHub Actions"
+3. Push to master/main branch to trigger deployment
+
+The workflow will automatically:
+
+- Install dependencies
+- Build the project
+- Deploy to GitHub Pages
+
+## 🛠️ Technology Stack
+
+- **Framework:** Astro
+- **UI Library:** React
+- **Styling:** Tailwind CSS
+- **Deployment:** GitHub Pages
+- **CI/CD:** GitHub Actions
+
 ## 👀 Want to learn more?
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Feel free to check [Astro documentation](https://docs.astro.build) or [Last Epoch documentation](https://lastepoch.com).
