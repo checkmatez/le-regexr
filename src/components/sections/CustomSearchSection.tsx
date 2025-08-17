@@ -32,8 +32,8 @@ export function CustomSearchSection({
                   onClick={() => toggleCommonPattern(pattern.pattern)}
                   className={`px-3 py-2.5 md:py-2 rounded text-xs md:text-sm font-medium transition-colors ${
                     isActive
-                      ? 'bg-amber-600 text-gray-900 hover:bg-amber-500'
-                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600 border border-gray-600'
+                      ? 'bg-amber-600 text-white hover:bg-amber-700'
+                      : 'bg-gray-600 text-white hover:bg-gray-700 border border-gray-600'
                   }`}
                   title={pattern.description}
                 >

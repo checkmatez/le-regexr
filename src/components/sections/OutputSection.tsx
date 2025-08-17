@@ -50,7 +50,7 @@ export function OutputSection({
         <div className="grid grid-cols-3 gap-2">
           <button
             onClick={onClear}
-            className="bg-gray-600 hover:bg-gray-500 text-white px-3 py-2 rounded text-sm font-medium transition-colors shadow-md"
+            className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded text-sm font-medium transition-colors shadow-md"
           >
             Clear
           </button>
@@ -110,7 +110,7 @@ export function OutputSection({
         />
         <button
           onClick={onClear}
-          className="bg-gray-600 hover:bg-gray-500 text-white px-6 py-2 rounded font-medium transition-colors whitespace-nowrap shadow-md"
+          className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded font-medium transition-colors whitespace-nowrap shadow-md"
         >
           Clear
         </button>
