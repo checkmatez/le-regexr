@@ -15,7 +15,7 @@ export function AffixTiersSection({
         <SectionHeader className="mb-0">Affix Tiers</SectionHeader>
         <button
           onClick={addAffixTier}
-          className="bg-amber-600 hover:bg-amber-700 text-white px-3 py-2 md:py-1 rounded text-xs md:text-sm font-medium"
+          className="bg-amber-600 hover:bg-amber-700 text-white px-3 py-2 md:py-1 rounded text-xs md:text-sm font-medium cursor-pointer"
         >
           Add Tier
         </button>
@@ -29,7 +29,7 @@ export function AffixTiersSection({
                 <h4 className="text-sm font-medium text-gray-300">Affix Tier {index + 1}</h4>
                 <button
                   onClick={() => removeAffixTier(index)}
-                  className="text-red-400 hover:text-red-300 text-sm px-2 py-1 hover:bg-gray-700 rounded"
+                  className="text-red-400 hover:text-red-300 text-sm px-2 py-1 hover:bg-gray-700 rounded cursor-pointer"
                 >
                   Remove
                 </button>

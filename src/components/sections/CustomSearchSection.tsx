@@ -30,7 +30,7 @@ export function CustomSearchSection({
                 <button
                   key={pattern.name}
                   onClick={() => toggleCommonPattern(pattern.pattern)}
-                  className={`px-3 py-2.5 md:py-2 rounded text-xs md:text-sm font-medium transition-colors ${
+                  className={`px-3 py-2.5 md:py-2 rounded text-xs md:text-sm font-medium transition-colors cursor-pointer ${
                     isActive
                       ? 'bg-amber-600 text-white hover:bg-amber-700'
                       : 'bg-gray-600 text-white hover:bg-gray-700 border border-gray-600'
@@ -52,7 +52,7 @@ export function CustomSearchSection({
             </label>
             <button
               onClick={() => addRegexPattern()}
-              className="px-3 py-2 md:py-1 bg-amber-600 hover:bg-amber-700 text-white rounded text-xs md:text-sm font-medium transition-colors"
+              className="px-3 py-2 md:py-1 bg-amber-600 hover:bg-amber-700 text-white rounded text-xs md:text-sm font-medium transition-colors cursor-pointer"
             >
               Add Pattern
             </button>
@@ -70,7 +70,7 @@ export function CustomSearchSection({
                 {regexPatterns.length > 1 && (
                   <button
                     onClick={() => removeRegexPattern(index)}
-                    className="px-3 py-3 md:px-2 md:py-2 bg-gray-600 text-white rounded text-sm hover:bg-gray-500 min-w-[44px] md:min-w-[32px] text-center"
+                    className="px-3 py-3 md:px-2 md:py-2 bg-gray-600 text-white rounded text-sm hover:bg-gray-500 min-w-[44px] md:min-w-[32px] text-center cursor-pointer"
                   >
                     ×
                   </button>

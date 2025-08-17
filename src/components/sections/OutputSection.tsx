@@ -18,7 +18,7 @@ export function OutputSection({
           <div className="bg-gray-700 rounded border border-gray-600 p-1 flex" title="Join with">
             <button
               onClick={onToggleOperator}
-              className={`px-2 py-1 text-xs font-medium rounded transition-colors ${
+              className={`px-2 py-1 text-xs font-medium rounded transition-colors cursor-pointer ${
                 globalOperator === '&'
                   ? 'bg-amber-600 text-white'
                   : 'text-gray-300 hover:text-white'
@@ -29,7 +29,7 @@ export function OutputSection({
             </button>
             <button
               onClick={onToggleOperator}
-              className={`px-2 py-1 text-xs font-medium rounded transition-colors ${
+              className={`px-2 py-1 text-xs font-medium rounded transition-colors cursor-pointer ${
                 globalOperator === '|'
                   ? 'bg-amber-600 text-white'
                   : 'text-gray-300 hover:text-white'
@@ -50,13 +50,13 @@ export function OutputSection({
         <div className="grid grid-cols-3 gap-2">
           <button
             onClick={onClear}
-            className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded text-sm font-medium transition-colors shadow-md"
+            className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded text-sm font-medium transition-colors shadow-md cursor-pointer"
           >
             Clear
           </button>
           <button
             onClick={onShare}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium transition-colors flex items-center justify-center gap-1"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded text-sm font-medium transition-colors flex items-center justify-center gap-1 cursor-pointer"
             title="Generate shareable link"
           >
             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -72,7 +72,7 @@ export function OutputSection({
           <button
             onClick={onCopy}
             disabled={!searchString}
-            className="bg-amber-600 hover:bg-amber-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-3 py-2 rounded text-sm font-medium transition-colors shadow-md"
+            className="bg-amber-600 hover:bg-amber-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-3 py-2 rounded text-sm font-medium transition-colors shadow-md cursor-pointer"
           >
             {copied ? 'Copied!' : 'Copy'}
           </button>
@@ -84,7 +84,7 @@ export function OutputSection({
         <div className="bg-gray-700 rounded border border-gray-600 p-1 flex" title="Join with">
           <button
             onClick={onToggleOperator}
-            className={`px-3 py-1 text-sm font-medium rounded transition-colors ${
+            className={`px-3 py-1 text-sm font-medium rounded transition-colors cursor-pointer ${
               globalOperator === '&' ? 'bg-amber-600 text-white' : 'text-gray-300 hover:text-white'
             }`}
             title="AND - All conditions must match"
@@ -93,7 +93,7 @@ export function OutputSection({
           </button>
           <button
             onClick={onToggleOperator}
-            className={`px-3 py-1 text-sm font-medium rounded transition-colors ${
+            className={`px-3 py-1 text-sm font-medium rounded transition-colors cursor-pointer ${
               globalOperator === '|' ? 'bg-amber-600 text-white' : 'text-gray-300 hover:text-white'
             }`}
             title="OR - Any condition can match"
@@ -110,13 +110,13 @@ export function OutputSection({
         />
         <button
           onClick={onClear}
-          className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded font-medium transition-colors whitespace-nowrap shadow-md"
+          className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded font-medium transition-colors whitespace-nowrap shadow-md cursor-pointer"
         >
           Clear
         </button>
         <button
           onClick={onShare}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded font-medium transition-colors whitespace-nowrap flex items-center gap-1"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded font-medium transition-colors whitespace-nowrap flex items-center gap-1 cursor-pointer"
           title="Generate shareable link"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -132,7 +132,7 @@ export function OutputSection({
         <button
           onClick={onCopy}
           disabled={!searchString}
-          className="bg-amber-600 hover:bg-amber-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-6 py-2 rounded font-medium transition-colors whitespace-nowrap shadow-md"
+          className="bg-amber-600 hover:bg-amber-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-6 py-2 rounded font-medium transition-colors whitespace-nowrap shadow-md cursor-pointer"
         >
           {copied ? 'Copied!' : 'Copy'}
         </button>
