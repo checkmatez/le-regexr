@@ -36,11 +36,7 @@ export interface SetToggleProps {
 export interface AffixTierProps {
   affixTiers: AffixTier[];
   addAffixTier: () => void;
-  updateAffixTier: (
-    index: number,
-    field: keyof AffixTier,
-    value: boolean | number | Operator,
-  ) => void;
+  updateAffixTier: (index: number, field: keyof AffixTier, value: number | Operator) => void;
   removeAffixTier: (index: number) => void;
 }
 
@@ -71,15 +67,11 @@ export interface AffixCountsSectionProps extends MacroUpdateProps {
 }
 
 export interface CustomSearchSectionProps {
-  customRegex: string;
-  textSearch: string;
-  onCustomRegexChange: (value: string) => void;
-  onTextSearchChange: (value: string) => void;
-}
-
-export interface SpecialMacrosSectionProps {
-  swapAttributes: SearchState['swapAttributes'];
-  onSwapAttributesChange: (enabled: boolean) => void;
+  regexPatterns: SearchState['regexPatterns'];
+  addRegexPattern: (pattern?: string) => void;
+  updateRegexPattern: (index: number, pattern: string) => void;
+  removeRegexPattern: (index: number) => void;
+  toggleCommonPattern: (pattern: string) => void;
 }
 
 export interface OutputSectionProps {

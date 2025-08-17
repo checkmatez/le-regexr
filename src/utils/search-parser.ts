@@ -15,6 +15,8 @@ export function parseSearchString(searchString: string, fallbackState: SearchSta
 
   try {
     const state = { ...fallbackState };
+    // Clear regex patterns array to start fresh
+    state.regexPatterns = [];
 
     // Split by & (AND) first - we'll handle | (OR) later if needed
     const parts = searchString
@@ -23,8 +25,8 @@ export function parseSearchString(searchString: string, fallbackState: SearchSta
       .filter(Boolean);
 
     for (const part of parts) {
-      // Item Potential: LP3+, WW20-, PT15, WT, FP
-      const potentialMatch = part.match(/^(LP|WW|PT)(\d+)([+-]?)$/i);
+      // Item Potential: LP3+, WW20-, PT15, FP50+
+      const potentialMatch = part.match(/^(LP|WW|PT|FP)(\d+)([+-]?)$/i);
       if (potentialMatch) {
         const [, macro, value, operator] = potentialMatch;
         const key = macro.toUpperCase() as keyof typeof state.itemPotential;
@@ -38,9 +40,12 @@ export function parseSearchString(searchString: string, fallbackState: SearchSta
         continue;
       }
 
-      // Simple Item Potential: WT, FP
-      if (/^(WT|FP)$/i.test(part)) {
-        const key = part.toUpperCase() as keyof typeof state.itemPotential;
+      // Simple Item Potential: WT, SwapAttributes
+      if (/^(WT|SwapAttributes)$/i.test(part)) {
+        const key =
+          part === 'SwapAttributes'
+            ? 'SwapAttributes'
+            : (part.toUpperCase() as keyof typeof state.itemPotential);
         if (key in state.itemPotential) {
           (state.itemPotential[key] as SimpleMacro) = { enabled: true };
         }
@@ -55,7 +60,6 @@ export function parseSearchString(searchString: string, fallbackState: SearchSta
         const tier = parseInt(tierStr);
 
         state.affixTiers.push({
-          enabled: true,
           tier,
           count,
           operator: (operator || '=') as Operator,
@@ -139,25 +143,20 @@ export function parseSearchString(searchString: string, fallbackState: SearchSta
         continue;
       }
 
-      // Special Macros: SwapAttributes
-      if (part.toLowerCase() === 'swapattributes') {
-        state.swapAttributes = { enabled: true };
-        continue;
-      }
-
-      // Text Search (regex): /pattern/
+      // Regex patterns: /pattern/
       const regexMatch = part.match(/^\/(.+)\/$/);
       if (regexMatch) {
-        state.textSearch = regexMatch[1];
+        state.regexPatterns.push({ pattern: regexMatch[1] });
         continue;
       }
 
-      // Everything else goes to custom regex
-      if (state.customRegex) {
-        state.customRegex += `&${part}`;
-      } else {
-        state.customRegex = part;
-      }
+      // Everything else goes to regex patterns (without slashes)
+      state.regexPatterns.push({ pattern: part });
+    }
+
+    // Ensure at least one regex pattern exists
+    if (state.regexPatterns.length === 0) {
+      state.regexPatterns = [{ pattern: '' }];
     }
 
     return state;
@@ -176,11 +175,12 @@ export function validateSearchString(searchString: string): boolean {
     const dummyState: SearchState = {
       selectedPreset: null,
       itemPotential: {
-        LP: { enabled: false, value: 0, operator: '=' },
-        WW: { enabled: false, value: 0, operator: '=' },
-        PT: { enabled: false, value: 20, operator: '=' },
+        LP: { enabled: false, value: 0, operator: '+' },
+        WW: { enabled: false, value: 0, operator: '+' },
+        PT: { enabled: false, value: 20, operator: '+' },
         WT: { enabled: false },
-        FP: { enabled: false },
+        FP: { enabled: false, value: 0, operator: '+' },
+        SwapAttributes: { enabled: false },
       },
       itemRarity: null,
       classRequirements: new Set(),
@@ -200,9 +200,7 @@ export function validateSearchString(searchString: string): boolean {
         Experimental: { enabled: false, value: 0, operator: '=' },
         Personal: { enabled: false, value: 0, operator: '=' },
       },
-      swapAttributes: { enabled: false },
-      customRegex: '',
-      textSearch: '',
+      regexPatterns: [{ pattern: '' }],
       expressionOperators: [],
     };
 

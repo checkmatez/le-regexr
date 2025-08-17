@@ -42,7 +42,7 @@ This project is automatically deployed to GitHub Pages using GitHub Actions.
 
 ### Automatic Deployment
 
-- **Trigger:** Push to `master` or `main` branch
+- **Trigger:** Push to `main` branch
 - **Workflow:** `.github/workflows/deploy.yml`
 - **Target:** GitHub Pages at `https://checkmatez.github.io/le-regexr/`
 
@@ -52,7 +52,7 @@ To set up GitHub Pages deployment for your own fork:
 
 1. Go to your repository's Settings → Pages
 2. Set Source to "GitHub Actions"
-3. Push to master/main branch to trigger deployment
+3. Push to main branch to trigger deployment
 
 The workflow will automatically:
 

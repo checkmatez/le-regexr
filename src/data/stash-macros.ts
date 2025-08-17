@@ -7,21 +7,24 @@ export const ITEM_POTENTIAL_MACROS = {
     name: 'Legendary Potential',
     description: "Non-Weaver's Will unique items",
     hasValue: true,
-    defaultValue: 0,
+    defaultValue: 1,
+    maxValue: 4,
   },
   WW: {
     code: 'WW',
     name: "Weaver's Will",
     description: "Weaver's Will unique or legendary items",
     hasValue: true,
-    defaultValue: 0,
-  },
-  PT: {
-    code: 'PT',
-    name: 'Potential Tier',
-    description: 'Items for unique rerolling in Gauntlet of Strife',
-    hasValue: true,
     defaultValue: 20,
+    maxValue: 28,
+  },
+  FP: {
+    code: 'FP',
+    name: 'Forging Potential',
+    description: 'Available Forging Potential',
+    hasValue: true,
+    defaultValue: 1,
+    maxValue: 70,
   },
   WT: {
     code: 'WT',
@@ -29,10 +32,18 @@ export const ITEM_POTENTIAL_MACROS = {
     description: 'Enchantable idols',
     hasValue: false,
   },
-  FP: {
-    code: 'FP',
-    name: 'Forgeable Equipment',
-    description: 'Forgeable equipment',
+  PT: {
+    code: 'PT',
+    name: 'Potential Tier',
+    description: 'Items for unique rerolling in Gauntlet of Strife',
+    hasValue: true,
+    defaultValue: 20,
+    maxValue: 28,
+  },
+  SwapAttributes: {
+    code: 'SwapAttributes',
+    name: 'Swap Attributes',
+    description: 'Items affected by Relic of the Observer',
     hasValue: false,
   },
 } as const;
@@ -101,37 +112,37 @@ export const AFFIX_COUNT_MACROS = {
     code: 'prefixes',
     name: 'Prefixes',
     description: 'Number of prefix affixes',
-    maxValue: 4,
+    maxValue: 2,
   },
   Suffixes: {
     code: 'suffixes',
     name: 'Suffixes',
     description: 'Number of suffix affixes',
-    maxValue: 4,
+    maxValue: 2,
   },
   Affixes: {
     code: 'affixes',
     name: 'Total Affixes',
     description: 'Total number of affixes',
-    maxValue: 8,
+    maxValue: 4,
   },
   Sealed: {
     code: 'sealed',
     name: 'Sealed Affixes',
     description: 'Number of sealed affixes',
-    maxValue: 4,
+    maxValue: 2,
   },
   Experimental: {
     code: 'experimental',
     name: 'Experimental Affixes',
     description: 'Number of experimental affixes',
-    maxValue: 4,
+    maxValue: 1,
   },
   Personal: {
     code: 'personal',
     name: 'Personal Affixes',
     description: 'Number of personal affixes',
-    maxValue: 4,
+    maxValue: 1,
   },
 } as const;
 
@@ -144,7 +155,6 @@ export const SEARCH_PRESETS: SearchPreset[] = [
     config: {
       affixTiers: [
         {
-          enabled: true,
           tier: 6,
           count: 1,
           operator: '+' as const,
@@ -159,7 +169,6 @@ export const SEARCH_PRESETS: SearchPreset[] = [
     config: {
       affixTiers: [
         {
-          enabled: true,
           tier: 7,
           count: 2,
           operator: '=' as const,
@@ -174,10 +183,11 @@ export const SEARCH_PRESETS: SearchPreset[] = [
     config: {
       itemPotential: {
         LP: { enabled: true, value: 1, operator: '+' as const },
-        WW: { enabled: false, value: 0, operator: '=' as const },
-        PT: { enabled: false, value: 0, operator: '=' as const },
+        WW: { enabled: false, value: 0, operator: '+' as const },
+        PT: { enabled: false, value: 0, operator: '+' as const },
         WT: { enabled: false },
-        FP: { enabled: false },
+        FP: { enabled: false, value: 0, operator: '+' as const },
+        SwapAttributes: { enabled: false },
       },
     },
   },
@@ -191,7 +201,8 @@ export const SEARCH_PRESETS: SearchPreset[] = [
         WW: { enabled: true, value: 20, operator: '+' as const },
         PT: { enabled: false, value: 0, operator: '=' as const },
         WT: { enabled: false },
-        FP: { enabled: false },
+        FP: { enabled: false, value: 0, operator: '=' as const },
+        SwapAttributes: { enabled: false },
       },
     },
   },
@@ -202,7 +213,6 @@ export const SEARCH_PRESETS: SearchPreset[] = [
     config: {
       affixTiers: [
         {
-          enabled: true,
           tier: 7,
           count: 1,
           operator: '+' as const,
@@ -225,7 +235,6 @@ export const SEARCH_PRESETS: SearchPreset[] = [
     config: {
       affixTiers: [
         {
-          enabled: true,
           tier: 7,
           count: 1,
           operator: '+' as const,
@@ -244,29 +253,114 @@ export const SEARCH_PRESETS: SearchPreset[] = [
 // Common regex patterns
 export const REGEX_PATTERNS = [
   {
-    name: 'Attunement 14-19',
-    pattern: '/1[4-9] attunement/',
-    description: 'Items with 14-19 attunement',
+    name: 'Helmet',
+    pattern: 'helmet',
+    description: 'Helmet items',
   },
   {
-    name: 'Crit Items',
-    pattern: '/crit/',
-    description: 'Items containing "crit"',
+    name: 'Body Armor',
+    pattern: 'body armor',
+    description: 'Body armor items',
+  },
+  {
+    name: 'Gloves',
+    pattern: 'gloves',
+    description: 'Glove items',
+  },
+  {
+    name: 'Belt',
+    pattern: 'belt',
+    description: 'Belt items',
   },
   {
     name: 'Boots',
-    pattern: '/boots/',
+    pattern: 'boots',
     description: 'Boot items',
   },
   {
-    name: 'Rings',
-    pattern: '/ring/',
+    name: 'Sword',
+    pattern: 'sword',
+    description: 'Sword items',
+  },
+  {
+    name: 'Axe',
+    pattern: 'axe',
+    description: 'Axe items',
+  },
+  {
+    name: 'Mace',
+    pattern: 'mace',
+    description: 'Mace items',
+  },
+  {
+    name: 'Dagger',
+    pattern: 'dagger',
+    description: 'Dagger items',
+  },
+  {
+    name: 'Scepter',
+    pattern: 'scepter',
+    description: 'Scepter items',
+  },
+  {
+    name: 'Wand',
+    pattern: 'wand',
+    description: 'Wand items',
+  },
+  {
+    name: 'Spear',
+    pattern: 'spear',
+    description: 'Spear items',
+  },
+  {
+    name: 'Staff',
+    pattern: 'staff',
+    description: 'Staff items',
+  },
+  {
+    name: 'Bow',
+    pattern: 'bow',
+    description: 'Bow items',
+  },
+  {
+    name: 'Quiver',
+    pattern: 'quiver',
+    description: 'Quiver items',
+  },
+  {
+    name: 'Shield',
+    pattern: 'shield',
+    description: 'Shield items',
+  },
+  {
+    name: 'Catalyst',
+    pattern: 'catalyst',
+    description: 'Catalyst items',
+  },
+  {
+    name: 'Ring',
+    pattern: 'ring',
     description: 'Ring items',
   },
   {
-    name: 'Relics',
-    pattern: '/relic/',
+    name: 'Amulet',
+    pattern: 'amulet',
+    description: 'Amulet items',
+  },
+  {
+    name: 'Relic',
+    pattern: 'relic',
     description: 'Relic items',
+  },
+  {
+    name: 'Crit Items',
+    pattern: 'crit',
+    description: 'Items containing "crit"',
+  },
+  {
+    name: 'Dexterity 11-14',
+    pattern: '1[1-4] dexterity',
+    description: 'Items with 11-14 dexterity',
   },
 ];
 
@@ -284,7 +378,7 @@ export const COUNT_OPTIONS = Array.from({ length: 5 }, (_, i) => ({
 
 // Operator options
 export const OPERATOR_OPTIONS = [
-  { value: '=' as const, label: 'Exactly', symbol: '' },
-  { value: '+' as const, label: 'At least', symbol: '+' },
-  { value: '-' as const, label: 'At most', symbol: '-' },
+  { value: '=' as const, label: 'Exact (=)', symbol: '' },
+  { value: '+' as const, label: 'At least (+)', symbol: '+' },
+  { value: '-' as const, label: 'At most (-)', symbol: '-' },
 ];

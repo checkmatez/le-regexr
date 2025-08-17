@@ -19,7 +19,8 @@ export interface ItemPotential {
   WW: MacroWithValue;
   PT: MacroWithValue;
   WT: SimpleMacro;
-  FP: SimpleMacro;
+  FP: MacroWithValue;
+  SwapAttributes: SimpleMacro;
 }
 
 // Item rarity options
@@ -49,7 +50,6 @@ export interface EquipmentRequirements {
 
 // Affix tier configuration
 export interface AffixTier {
-  enabled: boolean;
   tier: number; // 1-7
   count: number; // 1-5 for 1T-5T format
   operator: Operator;
@@ -68,6 +68,11 @@ export interface AffixCounts {
 // Expression operator
 export type ExpressionOperator = '&' | '|';
 
+// Regex pattern configuration
+export interface RegexPattern {
+  pattern: string;
+}
+
 // Complete search state
 export interface SearchState {
   // Quick preset selection
@@ -84,12 +89,8 @@ export interface SearchState {
   affixTiers: AffixTier[];
   affixCounts: AffixCounts;
 
-  // Special macros
-  swapAttributes: SimpleMacro;
-
   // Custom inputs
-  customRegex: string;
-  textSearch: string;
+  regexPatterns: RegexPattern[];
 
   // Expression building
   expressionOperators: ExpressionOperator[];

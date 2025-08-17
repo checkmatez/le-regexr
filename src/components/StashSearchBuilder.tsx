@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { AFFIX_COUNT_MACROS, SEARCH_PRESETS } from '../data/stash-macros';
+import { useEffect, useRef, useState } from 'react';
+import { AFFIX_COUNT_MACROS, OPERATOR_OPTIONS, SEARCH_PRESETS } from '../data/stash-macros';
 import type { AffixTier, MacroWithValue, Operator, SearchState } from '../types/stash-search';
 import {
   clearURLState,
@@ -18,18 +18,23 @@ import {
   ItemTypesSection,
   OutputSection,
   PresetSection,
-  SpecialMacrosSection,
 } from './sections';
+
+// Helper function to get operator symbol for search string generation
+const getOperatorSymbol = (operator: Operator): string => {
+  return OPERATOR_OPTIONS.find((op) => op.value === operator)?.symbol ?? '';
+};
 
 // Initial state
 const createInitialState = (): SearchState => ({
   selectedPreset: null,
   itemPotential: {
-    LP: { enabled: false, value: 0, operator: '=' },
-    WW: { enabled: false, value: 0, operator: '=' },
-    PT: { enabled: false, value: 20, operator: '=' },
+    LP: { enabled: false, value: 0, operator: '+' },
+    WW: { enabled: false, value: 0, operator: '+' },
+    PT: { enabled: false, value: 20, operator: '+' },
     WT: { enabled: false },
-    FP: { enabled: false },
+    FP: { enabled: false, value: 0, operator: '+' },
+    SwapAttributes: { enabled: false },
   },
   itemRarity: null,
   classRequirements: new Set(),
@@ -49,13 +54,81 @@ const createInitialState = (): SearchState => ({
     Experimental: { enabled: false, value: 0, operator: '=' },
     Personal: { enabled: false, value: 0, operator: '=' },
   },
-  swapAttributes: { enabled: false },
-  customRegex: '',
-  textSearch: '',
+  regexPatterns: [{ pattern: '' }],
   expressionOperators: [],
 });
 
-export default function StashSearchBuilder() {
+// Generate search string from current state
+const generateSearchString = (currentState: SearchState): string => {
+  const parts: string[] = [];
+
+  // Item potential
+  Object.entries(currentState.itemPotential).forEach(([key, macro]) => {
+    if (macro.enabled) {
+      if ('value' in macro) {
+        const operator = getOperatorSymbol(macro.operator);
+        parts.push(`${key}${macro.value}${operator}`);
+      } else {
+        parts.push(key);
+      }
+    }
+  });
+
+  // Item rarity
+  if (currentState.itemRarity) {
+    parts.push(currentState.itemRarity);
+  }
+
+  // Class requirements
+  currentState.classRequirements.forEach((cls) => {
+    parts.push(cls);
+  });
+
+  // Item types
+  currentState.itemTypes.forEach((type) => {
+    parts.push(type);
+  });
+
+  // Equipment requirements
+  Object.entries(currentState.equipmentRequirements).forEach(([key, macro]) => {
+    if (macro.enabled) {
+      if ('value' in macro) {
+        const operator = getOperatorSymbol(macro.operator);
+        parts.push(`${key}${macro.value}${operator}`);
+      } else {
+        parts.push(key);
+      }
+    }
+  });
+
+  // Affix tiers (enabled if exists in array)
+  currentState.affixTiers.forEach((affix) => {
+    const countPrefix = affix.count > 1 ? affix.count : '';
+    const operator = affix.operator === '=' ? '' : affix.operator;
+    parts.push(`${countPrefix}T${affix.tier}${operator}`);
+  });
+
+  // Affix counts
+  Object.entries(currentState.affixCounts).forEach(([key, macro]) => {
+    if (macro.enabled) {
+      const operator = getOperatorSymbol(macro.operator);
+      const macroName = AFFIX_COUNT_MACROS[key as keyof typeof AFFIX_COUNT_MACROS].code;
+      parts.push(`${macroName}${macro.value}${operator}`);
+    }
+  });
+
+  // Regex patterns (enabled if not empty)
+  currentState.regexPatterns.forEach((regex) => {
+    if (regex.pattern.trim()) {
+      parts.push(`/${regex.pattern}/`);
+    }
+  });
+
+  // Join with & by default (can be enhanced for custom operators)
+  return parts.join('&');
+};
+
+export const StashSearchBuilder = () => {
   const [state, setState] = useState<SearchState>(() => {
     // Initialize state from URL on first load
     return getStateFromURL(createInitialState());
@@ -64,87 +137,6 @@ export default function StashSearchBuilder() {
   const [shared, setShared] = useState(false);
   const updateTimeoutRef = useRef<number | undefined>(undefined);
 
-  // Generate search string from current state
-  const generateSearchString = useCallback((currentState: SearchState): string => {
-    const parts: string[] = [];
-
-    // Item potential
-    Object.entries(currentState.itemPotential).forEach(([key, macro]) => {
-      if (macro.enabled) {
-        if ('value' in macro) {
-          const operator = macro.operator === '=' ? '' : macro.operator;
-          parts.push(`${key}${macro.value}${operator}`);
-        } else {
-          parts.push(key);
-        }
-      }
-    });
-
-    // Item rarity
-    if (currentState.itemRarity) {
-      parts.push(currentState.itemRarity);
-    }
-
-    // Class requirements
-    currentState.classRequirements.forEach((cls) => {
-      parts.push(cls);
-    });
-
-    // Item types
-    currentState.itemTypes.forEach((type) => {
-      parts.push(type);
-    });
-
-    // Equipment requirements
-    Object.entries(currentState.equipmentRequirements).forEach(([key, macro]) => {
-      if (macro.enabled) {
-        if ('value' in macro) {
-          const operator = macro.operator === '=' ? '' : macro.operator;
-          parts.push(`${key}${macro.value}${operator}`);
-        } else {
-          parts.push(key);
-        }
-      }
-    });
-
-    // Affix tiers
-    currentState.affixTiers.forEach((affix) => {
-      if (affix.enabled) {
-        const countPrefix = affix.count > 1 ? affix.count : '';
-        const operator = affix.operator === '=' ? '' : affix.operator;
-        parts.push(`${countPrefix}T${affix.tier}${operator}`);
-      }
-    });
-
-    // Affix counts
-    Object.entries(currentState.affixCounts).forEach(([key, macro]) => {
-      if (macro.enabled) {
-        const operator = macro.operator === '=' ? '' : macro.operator;
-        const macroName = AFFIX_COUNT_MACROS[key as keyof typeof AFFIX_COUNT_MACROS].code;
-        parts.push(`${macroName}${macro.value}${operator}`);
-      }
-    });
-
-    // Special macros
-    if (currentState.swapAttributes.enabled) {
-      parts.push('SwapAttributes');
-    }
-
-    // Custom regex
-    if (currentState.customRegex.trim()) {
-      parts.push(currentState.customRegex);
-    }
-
-    // Text search (as regex)
-    if (currentState.textSearch.trim()) {
-      parts.push(`/${currentState.textSearch}/`);
-    }
-
-    // Join with & by default (can be enhanced for custom operators)
-    return parts.join('&');
-  }, []);
-
-  // Calculate search string directly from state (no need for useState + useEffect)
   const searchString = generateSearchString(state);
 
   // Debounced URL update when search string changes
@@ -171,7 +163,7 @@ export default function StashSearchBuilder() {
   const handlePresetChange = (presetName: string) => {
     const preset = SEARCH_PRESETS.find((p) => p.name === presetName);
     if (preset) {
-      setState((prevState) => ({
+      setState(() => ({
         ...createInitialState(),
         ...preset.config,
         selectedPreset: presetName,
@@ -229,19 +221,12 @@ export default function StashSearchBuilder() {
   const addAffixTier = () => {
     setState((prevState) => ({
       ...prevState,
-      affixTiers: [
-        ...prevState.affixTiers,
-        { enabled: true, tier: 6, count: 1, operator: '+' as Operator },
-      ],
+      affixTiers: [...prevState.affixTiers, { tier: 6, count: 1, operator: '+' as Operator }],
     }));
   };
 
   // Update affix tier
-  const updateAffixTier = (
-    index: number,
-    field: keyof AffixTier,
-    value: boolean | number | Operator,
-  ) => {
+  const updateAffixTier = (index: number, field: keyof AffixTier, value: number | Operator) => {
     setState((prevState) => ({
       ...prevState,
       affixTiers: prevState.affixTiers.map((affix, i) =>
@@ -256,6 +241,72 @@ export default function StashSearchBuilder() {
       ...prevState,
       affixTiers: prevState.affixTiers.filter((_, i) => i !== index),
     }));
+  };
+
+  // Add new regex pattern
+  const addRegexPattern = (pattern: string = '') => {
+    setState((prevState) => ({
+      ...prevState,
+      regexPatterns: [...prevState.regexPatterns, { pattern }],
+    }));
+  };
+
+  // Update regex pattern
+  const updateRegexPattern = (index: number, pattern: string) => {
+    setState((prevState) => ({
+      ...prevState,
+      regexPatterns: prevState.regexPatterns.map((regex, i) => (i === index ? { pattern } : regex)),
+    }));
+  };
+
+  // Remove regex pattern (ensure at least one remains)
+  const removeRegexPattern = (index: number) => {
+    setState((prevState) => ({
+      ...prevState,
+      regexPatterns:
+        prevState.regexPatterns.length > 1
+          ? prevState.regexPatterns.filter((_, i) => i !== index)
+          : [{ pattern: '' }],
+    }));
+  };
+
+  // Toggle common pattern (add if not present, remove if present)
+  const toggleCommonPattern = (pattern: string) => {
+    setState((prevState) => {
+      const existingIndex = prevState.regexPatterns.findIndex((p) => p.pattern === pattern);
+      if (existingIndex >= 0) {
+        // Remove the pattern
+        return {
+          ...prevState,
+          regexPatterns:
+            prevState.regexPatterns.length > 1
+              ? prevState.regexPatterns.filter((_, i) => i !== existingIndex)
+              : [{ pattern: '' }],
+        };
+      } else {
+        // Add the pattern - insert before the last empty pattern if it exists
+        const lastIndex = prevState.regexPatterns.length - 1;
+        const lastPattern = prevState.regexPatterns[lastIndex];
+
+        if (lastPattern && lastPattern.pattern === '') {
+          // Insert before the empty pattern
+          return {
+            ...prevState,
+            regexPatterns: [
+              ...prevState.regexPatterns.slice(0, lastIndex),
+              { pattern },
+              lastPattern,
+            ],
+          };
+        } else {
+          // Add at the end
+          return {
+            ...prevState,
+            regexPatterns: [...prevState.regexPatterns, { pattern }],
+          };
+        }
+      }
+    });
   };
 
   // Copy to clipboard
@@ -349,21 +400,12 @@ export default function StashSearchBuilder() {
       </div>
 
       <CustomSearchSection
-        customRegex={state.customRegex}
-        textSearch={state.textSearch}
-        onCustomRegexChange={(value) => setState((prev) => ({ ...prev, customRegex: value }))}
-        onTextSearchChange={(value) => setState((prev) => ({ ...prev, textSearch: value }))}
-      />
-
-      <SpecialMacrosSection
-        swapAttributes={state.swapAttributes}
-        onSwapAttributesChange={(enabled) =>
-          setState((prev) => ({
-            ...prev,
-            swapAttributes: { enabled },
-          }))
-        }
+        regexPatterns={state.regexPatterns}
+        addRegexPattern={addRegexPattern}
+        updateRegexPattern={updateRegexPattern}
+        removeRegexPattern={removeRegexPattern}
+        toggleCommonPattern={toggleCommonPattern}
       />
     </div>
   );
-}
+};

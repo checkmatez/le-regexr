@@ -33,6 +33,7 @@ export function ItemPotentialSection({
                 }
                 operatorOptions={OPERATOR_OPTIONS}
                 min={0}
+                max={macro.maxValue}
               />
             )}
           </div>

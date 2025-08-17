@@ -8,4 +8,3 @@ export { ItemRaritySection } from './ItemRaritySection';
 export { ItemTypesSection } from './ItemTypesSection';
 export { OutputSection } from './OutputSection';
 export { PresetSection } from './PresetSection';
-export { SpecialMacrosSection } from './SpecialMacrosSection';
