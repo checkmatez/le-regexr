@@ -2,7 +2,7 @@
 
 A web application for building complex stash search strings for Last Epoch using an intuitive interface.
 
-🌐 **Live Demo:** [https://maksim-s.github.io/le-regexr/](https://maksim-s.github.io/le-regexr/)
+🌐 **Live Demo:** [https://checkmatez.github.io/le-regexr/](https://checkmatez.github.io/le-regexr/)
 
 ## 🚀 Project Structure
 
@@ -44,7 +44,7 @@ This project is automatically deployed to GitHub Pages using GitHub Actions.
 
 - **Trigger:** Push to `master` or `main` branch
 - **Workflow:** `.github/workflows/deploy.yml`
-- **Target:** GitHub Pages at `https://maksim-s.github.io/le-regexr/`
+- **Target:** GitHub Pages at `https://checkmatez.github.io/le-regexr/`
 
 ### Manual Deployment Setup
 
