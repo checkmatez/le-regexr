@@ -1,12 +1,14 @@
 ---
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
+import Footer from '../components/Footer.astro';
 
 export interface Props {
   title: string;
+  showFooter?: boolean;
 }
 
-const { title } = Astro.props;
+const { title, showFooter = true } = Astro.props;
 const description = "Last Epoch Stash Search Builder - Create complex search strings with ease";
 const siteUrl = "https://checkmatez.github.io/le-regexr";
 const imageUrl = `${siteUrl}/favicon.svg`;
@@ -45,7 +47,10 @@ const imageUrl = `${siteUrl}/favicon.svg`;
     <ClientRouter />
   </head>
   <body>
-    <slot />
+    <div class="min-h-screen flex flex-col">
+      <slot />
+      {showFooter && <Footer />}
+    </div>
   </body>
 </html>
 

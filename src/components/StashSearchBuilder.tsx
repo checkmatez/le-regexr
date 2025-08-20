@@ -300,7 +300,7 @@ export const StashSearchBuilder = () => {
 
   return (
     <>
-      <div className="max-w-7xl mx-auto p-4 md:p-6 bg-gray-900 text-gray-100 pb-32 md:pb-24">
+      <div className="max-w-7xl mx-auto p-4 md:p-6 bg-gray-900 text-gray-100 pb-48 md:pb-40">
         <div className="mb-6 md:mb-8">
           <h1 className="text-2xl md:text-3xl font-bold text-amber-400 mb-2">
             Last Epoch Stash Search Builder
