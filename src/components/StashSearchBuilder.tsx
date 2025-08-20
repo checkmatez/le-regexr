@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { AFFIX_COUNT_MACROS, OPERATOR_OPTIONS, SEARCH_PRESETS } from '../data/stash-macros';
+import { AFFIX_COUNT_MACROS, OPERATOR_OPTIONS } from '../data/stash-macros';
 import type { AffixTier, MacroWithValue, Operator, SearchState } from '../types/stash-search';
 import {
   clearURLState,
+  createInitialState,
   generateShareableLink,
   getStateFromURL,
   updateURL,
@@ -23,40 +24,6 @@ import {
 const getOperatorSymbol = (operator: Operator): string => {
   return OPERATOR_OPTIONS.find((op) => op.value === operator)?.symbol ?? '';
 };
-
-// Initial state
-const createInitialState = (): SearchState => ({
-  selectedPreset: null,
-  itemPotential: {
-    LP: { enabled: false, value: 1, operator: '+' },
-    WW: { enabled: false, value: 16, operator: '+' },
-    PT: { enabled: false, value: 16, operator: '+' },
-    WT: { enabled: false },
-    FP: { enabled: false, value: 1, operator: '+' },
-    SwapAttributes: { enabled: false },
-  },
-  itemRarity: null,
-  classRequirements: new Set(),
-  itemTypes: new Set(),
-  equipmentRequirements: {
-    Lvl: { enabled: false, value: 1, operator: '=' },
-    CoF: { enabled: false },
-    MG: { enabled: false },
-    Trade: { enabled: false },
-  },
-  affixTiers: [],
-  affixCounts: {
-    Prefixes: { enabled: false, value: 0, operator: '=' },
-    Suffixes: { enabled: false, value: 0, operator: '=' },
-    Affixes: { enabled: false, value: 0, operator: '=' },
-    Sealed: { enabled: false, value: 0, operator: '=' },
-    Experimental: { enabled: false, value: 0, operator: '=' },
-    Personal: { enabled: false, value: 0, operator: '=' },
-  },
-  regexPatterns: [{ pattern: '' }],
-  globalOperator: '&',
-  expressionOperators: [],
-});
 
 // Generate search string from current state
 const generateSearchString = (currentState: SearchState): string => {
@@ -129,10 +96,7 @@ const generateSearchString = (currentState: SearchState): string => {
 };
 
 export const StashSearchBuilder = () => {
-  const [state, setState] = useState<SearchState>(() => {
-    // Initialize state from URL on first load
-    return getStateFromURL(createInitialState());
-  });
+  const [state, setState] = useState<SearchState>(() => getStateFromURL());
   const [copied, setCopied] = useState(false);
   const [shared, setShared] = useState(false);
   const updateTimeoutRef = useRef<number | undefined>(undefined);
@@ -158,17 +122,6 @@ export const StashSearchBuilder = () => {
       }
     };
   }, [searchString]);
-
-  // Handle preset selection
-  const handlePresetChange = (presetName: string) => {
-    const preset = SEARCH_PRESETS.find((p) => p.name === presetName);
-    if (preset) {
-      setState(() => ({
-        ...createInitialState(),
-        selectedPreset: presetName,
-      }));
-    }
-  };
 
   // Handle macro with value changes
   const updateMacroWithValue = (
@@ -357,7 +310,7 @@ export const StashSearchBuilder = () => {
           </p>
         </div>
 
-        <PresetSection />
+        <PresetSection currentSearchString={searchString} onPresetSelect={setState} />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 mb-6 md:mb-8">
           {/* Column 1 */}

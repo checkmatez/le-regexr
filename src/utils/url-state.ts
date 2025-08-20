@@ -1,13 +1,53 @@
 import type { SearchState } from '../types/stash-search';
 import { parseSearchString } from './search-parser';
 
+export const createInitialState = (): SearchState => ({
+  selectedPreset: null,
+  itemPotential: {
+    LP: { enabled: false, value: 1, operator: '+' },
+    WW: { enabled: false, value: 16, operator: '+' },
+    PT: { enabled: false, value: 16, operator: '+' },
+    WT: { enabled: false },
+    FP: { enabled: false, value: 1, operator: '+' },
+    SwapAttributes: { enabled: false },
+  },
+  itemRarity: null,
+  classRequirements: new Set(),
+  itemTypes: new Set(),
+  equipmentRequirements: {
+    Lvl: { enabled: false, value: 1, operator: '=' },
+    CoF: { enabled: false },
+    MG: { enabled: false },
+    Trade: { enabled: false },
+  },
+  affixTiers: [],
+  affixCounts: {
+    Prefixes: { enabled: false, value: 0, operator: '=' },
+    Suffixes: { enabled: false, value: 0, operator: '=' },
+    Affixes: { enabled: false, value: 0, operator: '=' },
+    Sealed: { enabled: false, value: 0, operator: '=' },
+    Experimental: { enabled: false, value: 0, operator: '=' },
+    Personal: { enabled: false, value: 0, operator: '=' },
+  },
+  regexPatterns: [{ pattern: '' }],
+  globalOperator: '&',
+  expressionOperators: [],
+});
+
 /**
  * Get current state from URL query parameter
  */
-export function getStateFromURL(fallback: SearchState): SearchState {
-  if (typeof window === 'undefined') return fallback;
+export function getStateFromURL(search?: string): SearchState {
+  const fallback = createInitialState();
+  let s = search;
+  if (!s && typeof window !== 'undefined') {
+    s = window.location.search;
+  }
+  if (!s) {
+    return fallback;
+  }
 
-  const urlParams = new URLSearchParams(window.location.search);
+  const urlParams = new URLSearchParams(s);
   const searchQuery = urlParams.get('q');
 
   if (searchQuery) {
