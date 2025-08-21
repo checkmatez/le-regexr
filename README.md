@@ -1,73 +1,90 @@
-# Last Epoch Stash Search Builder
+# Eternity - Last Epoch Stash Search Builder
 
-A web application for building complex stash search strings for Last Epoch using an intuitive interface.
+A web application for building Last Epoch stash search strings with an intuitive user interface. Generate complex search expressions using macros, regex patterns, and logical operators to quickly find items in your stash.
 
-🌐 **Live Demo:** [https://checkmatez.github.io/eternity/search/](https://checkmatez.github.io/eternity/)
+## Features
 
-## 🚀 Project Structure
+- **Intuitive UI**: Build complex search strings without memorizing macro syntax
+- **Macro System**: User-friendly inputs that translate to Last Epoch's macro syntax
+- **Preset Templates**: Pre-configured searches for common item filtering scenarios
+- **URL Sharing**: Share search configurations via URL for easy collaboration
+- **Expression Logic**: Support for AND (&) and OR (|) operators between search terms
 
-Inside of your Astro project, you'll see the following folders and files:
+## Quick Start
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+### Development
+
+```bash
+npm install
+npm run dev
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Visit `http://localhost:4321/search` to start building search strings.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+### Production Build
 
-Any static assets, like images, can be placed in the `public/` directory.
+```bash
+npm run build
+npm run preview
+```
 
-## 🧞 Commands
+## Available Scripts
 
-All commands are run from the root of the project, from a terminal:
+- `npm run dev` - Start development server at localhost:4321
+- `npm run build` - Build production site to ./dist/
+- `npm run preview` - Preview production build locally
+- `npm run typecheck` - Run TypeScript type checking
+- `npm run format` - Format code with Prettier
+- `npm run format:check` - Check code formatting
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Tech Stack
 
-## 🚀 Deployment
+- **Framework**: Astro 5
+- **UI**: React 19 + TypeScript
+- **Styling**: Tailwind CSS v4
+- **Build**: Vite
+- **Code Quality**: Prettier + Husky + lint-staged
 
-This project is automatically deployed to GitHub Pages using GitHub Actions.
+## Usage
 
-### Automatic Deployment
+The application provides sections for different types of Last Epoch item filters:
 
-- **Trigger:** Push to `main` branch
-- **Workflow:** `.github/workflows/deploy.yml`
-- **Target:** GitHub Pages at `https://checkmatez.github.io/eternity/`
+- **Item Potential**: Set legendary potential requirements (e.g., LP3+)
+- **Affix Tiers**: Filter by specific affix tier ranges
+- **Item Types**: Search by item categories and types
+- **Custom Expressions**: Build advanced search logic
 
-### Manual Deployment Setup
+Generated search strings can be copied and pasted directly into Last Epoch's stash search.
 
-To set up GitHub Pages deployment for your own fork:
+## Deployment
 
-1. Go to your repository's Settings → Pages
-2. Set Source to "GitHub Actions"
-3. Push to main branch to trigger deployment
+This project is configured for GitHub Pages deployment:
 
-The workflow will automatically:
+- **Site**: `https://checkmatez.github.io/eternity`
+- **Auto-deploy**: Pushes to main branch trigger deployment
+- **Base URL**: `/eternity` (configured in astro.config.mjs)
 
-- Install dependencies
-- Build the project
-- Deploy to GitHub Pages
+## Project Structure
 
-## 🛠️ Technology Stack
+```
+src/
+├── components/
+│   ├── sections/          # Feature-specific UI sections
+│   └── ui/               # Reusable UI components
+├── data/
+│   └── stash-macros.ts   # Macro definitions and presets
+├── layouts/
+│   └── Layout.astro      # Base page layout
+├── pages/
+│   ├── index.astro       # Redirects to /search
+│   └── search.astro      # Main application page
+├── types/
+│   └── stash-search.ts   # TypeScript interfaces
+└── utils/
+    ├── search-parser.ts  # Search string parsing logic
+    └── url-state.ts      # URL state synchronization
+```
 
-- **Framework:** Astro
-- **UI Library:** React
-- **Styling:** Tailwind CSS
-- **Deployment:** GitHub Pages
-- **CI/CD:** GitHub Actions
+## License
 
-## 👀 Want to learn more?
-
-Feel free to check [Astro documentation](https://docs.astro.build) or [Last Epoch documentation](https://lastepoch.com).
+MIT License - see LICENSE file for details.
