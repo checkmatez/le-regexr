@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://checkmatez.github.io/le-regexr/sitemap.xml
+Sitemap: https://checkmatez.github.io/eternity/sitemap.xml

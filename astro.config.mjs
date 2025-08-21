@@ -7,7 +7,8 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://checkmatez.github.io',
-  base: '/le-regexr',
+  base: '/eternity',
+  trailingSlash: 'never',
   integrations: [react()],
   vite: {
     plugins: [tailwindcss()],

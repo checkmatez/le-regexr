@@ -1,4 +1,4 @@
-import type { ClassRequirement, ItemRarity, ItemType, SearchPreset } from '../types/stash-search';
+import type { ClassRequirement, ItemRarity, ItemType, SearchPreset } from '../types/stash/search';
 
 // Item potential macro definitions
 export const ITEM_POTENTIAL_MACROS = {
@@ -147,22 +147,22 @@ export const SEARCH_PRESETS: SearchPreset[] = [
   {
     name: 'Double T6+',
     description: 'At least 2 T6+ affixes',
-    link: '/le-regexr?q=2T6%2B',
+    link: '/eternity/search?q=2T6%2B',
   },
   {
     name: 'High Potential Uniques',
     description: 'LP3+ or WW20+ items',
-    link: '/le-regexr?q=LP3%2B%7CWW20%2B',
+    link: '/eternity/search?q=LP3%2B%7CWW20%2B',
   },
   {
     name: 'Open Prefix T7 Exalts',
     description: 'T7 exalted items with open prefix slots',
-    link: '/le-regexr?q=T7%2B%26prefixes1-',
+    link: '/eternity/search?q=T7%2B%26prefixes1-',
   },
   {
     name: 'Craftable boots with 25+% MS',
     description: 'Craftable boots with 25+% movement speed',
-    link: '/le-regexr?q=FP1%2B%26%2Fboots%2F%26%2F2%5B5-9%5D%7C%5B3-9%5D%5B0-9%5D+increased+movement%2F',
+    link: '/eternity/search?q=FP1%2B%26%2Fboots%2F%26%2F2%5B5-9%5D%7C%5B3-9%5D%5B0-9%5D+increased+movement%2F',
   },
 ];
 

@@ -37,7 +37,7 @@ export function PresetSection({ currentSearchString, onPresetSelect }: PresetSec
 
   return (
     <SectionContainer className="mb-6 md:mb-8">
-      <SectionHeader>Quick Presets</SectionHeader>
+      <SectionHeader>Quick Examples</SectionHeader>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
         {SEARCH_PRESETS.map((preset) => (
           <button

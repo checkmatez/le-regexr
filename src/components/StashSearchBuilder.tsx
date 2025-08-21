@@ -306,7 +306,7 @@ export const StashSearchBuilder = () => {
             Last Epoch Stash Search Builder
           </h1>
           <p className="text-gray-300 text-sm md:text-base">
-            Build complex stash search strings using an intuitive interface
+            Build complex stash search strings easily
           </p>
         </div>
 

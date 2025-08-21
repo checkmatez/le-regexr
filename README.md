@@ -2,7 +2,7 @@
 
 A web application for building complex stash search strings for Last Epoch using an intuitive interface.
 
-🌐 **Live Demo:** [https://checkmatez.github.io/le-regexr/](https://checkmatez.github.io/le-regexr/)
+🌐 **Live Demo:** [https://checkmatez.github.io/eternity/search/](https://checkmatez.github.io/eternity/)
 
 ## 🚀 Project Structure
 
@@ -44,7 +44,7 @@ This project is automatically deployed to GitHub Pages using GitHub Actions.
 
 - **Trigger:** Push to `main` branch
 - **Workflow:** `.github/workflows/deploy.yml`
-- **Target:** GitHub Pages at `https://checkmatez.github.io/le-regexr/`
+- **Target:** GitHub Pages at `https://checkmatez.github.io/eternity/`
 
 ### Manual Deployment Setup
 
